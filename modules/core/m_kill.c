@@ -160,7 +160,6 @@ ms_kill(struct Client *client_p, struct Client *source_p, int parc, const char *
     const char *reason;
     char default_reason[] = "<No reason given>";
     const char *path;
-    int chasing = 0;
 
     *buf = '\0';
 
@@ -197,7 +196,6 @@ ms_kill(struct Client *client_p, struct Client *source_p, int parc, const char *
             return 0;
         }
         sendto_one_notice(source_p, ":KILL changed from %s to %s", user, target_p->name);
-        chasing = 1;
     }
 
     if(IsServer(target_p) || IsMe(target_p)) {
@@ -264,8 +262,8 @@ relay_kill(struct Client *one, struct Client *source_p,
 
     if(MyClient(source_p))
         snprintf(buffer, sizeof(buffer),
-                    "%s!%s!%s!%s (%s)",
-                    me.name, source_p->host, source_p->username, source_p->name, reason);
+                 "%s!%s!%s!%s (%s)",
+                 me.name, source_p->host, source_p->username, source_p->name, reason);
     else
         snprintf(buffer, sizeof(buffer), "%s %s", inpath, reason);
 

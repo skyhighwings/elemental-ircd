@@ -170,7 +170,7 @@ mr_server(struct Client *client_p, struct Client *source_p, int parc, const char
         /* NOT REACHED */
         break;
 
-        /* servername is > HOSTLEN */
+    /* servername is > HOSTLEN */
     case -4:
         sendto_realops_snomask(SNO_GENERAL, L_ALL,
                                "Invalid servername %s from %s",
@@ -310,8 +310,8 @@ ms_server(struct Client *client_p, struct Client *source_p, int parc, const char
              client_p->name, name);
 
         snprintf(squitreason, sizeof squitreason,
-                    "Server %s already exists",
-                    name);
+                 "Server %s already exists",
+                 name);
         exit_client(client_p, client_p, &me, squitreason);
         return 0;
     }
@@ -392,8 +392,8 @@ ms_server(struct Client *client_p, struct Client *source_p, int parc, const char
              client_p->name, name);
 
         snprintf(squitreason, sizeof squitreason,
-                    "No matching hub_mask for %s",
-                    name);
+                 "No matching hub_mask for %s",
+                 name);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }
@@ -408,8 +408,8 @@ ms_server(struct Client *client_p, struct Client *source_p, int parc, const char
              client_p->name, name);
 
         snprintf(squitreason, sizeof squitreason,
-                    "Matching leaf_mask for %s",
-                    name);
+                 "Matching leaf_mask for %s",
+                 name);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }
@@ -471,12 +471,9 @@ ms_sid(struct Client *client_p, struct Client *source_p, int parc, const char *p
     struct remote_conf *hub_p;
     hook_data_client hdata;
     rb_dlink_node *ptr;
-    int hop;
     int hlined = 0;
     int llined = 0;
     char squitreason[160];
-
-    hop = atoi(parv[2]);
 
     /* collision on the name? */
     if((target_p = find_server(NULL, parv[1])) != NULL) {
@@ -484,8 +481,8 @@ ms_sid(struct Client *client_p, struct Client *source_p, int parc, const char *p
              client_p->name, parv[1]);
 
         snprintf(squitreason, sizeof squitreason,
-                    "Server %s already exists",
-                    parv[1]);
+                 "Server %s already exists",
+                 parv[1]);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }
@@ -502,8 +499,8 @@ ms_sid(struct Client *client_p, struct Client *source_p, int parc, const char *p
              client_p->name, parv[3], parv[1], target_p->name);
 
         snprintf(squitreason, sizeof squitreason,
-                    "SID %s for %s already in use by %s",
-                    parv[3], parv[1], target_p->name);
+                 "SID %s for %s already in use by %s",
+                 parv[3], parv[1], target_p->name);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }
@@ -557,8 +554,8 @@ ms_sid(struct Client *client_p, struct Client *source_p, int parc, const char *p
              client_p->name, parv[1]);
 
         snprintf(squitreason, sizeof squitreason,
-                    "No matching hub_mask for %s",
-                    parv[1]);
+                 "No matching hub_mask for %s",
+                 parv[1]);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }
@@ -572,8 +569,8 @@ ms_sid(struct Client *client_p, struct Client *source_p, int parc, const char *p
              client_p->name, parv[1]);
 
         snprintf(squitreason, sizeof squitreason,
-                    "Matching leaf_mask for %s",
-                    parv[1]);
+                 "Matching leaf_mask for %s",
+                 parv[1]);
         exit_client(NULL, client_p, &me, squitreason);
         return 0;
     }

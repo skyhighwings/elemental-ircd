@@ -134,7 +134,6 @@ ms_join(struct Client *client_p, struct Client *source_p, int parc, const char *
     time_t newts;
     int isnew;
     int keep_our_modes = YES;
-    int keep_new_modes = YES;
     rb_dlink_node *ptr, *next_ptr;
 
     /* special case for join 0 */
@@ -192,8 +191,7 @@ ms_join(struct Client *client_p, struct Client *source_p, int parc, const char *
     else if(newts < oldts) {
         keep_our_modes = NO;
         chptr->channelts = newts;
-    } else
-        keep_new_modes = NO;
+    }
 
     /* Lost the TS, other side wins, so remove modes on this side */
     if(!keep_our_modes) {
@@ -495,7 +493,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p, int parc, const char 
         modes = empty_modes;
 
     mlen_uid = sprintf(buf_uid, ":%s SJOIN %ld %s %s :",
-                          use_id(source_p), (long) chptr->channelts, parv[2], modes);
+                       use_id(source_p), (long) chptr->channelts, parv[2], modes);
     ptr_uid = buf_uid + mlen_uid;
 
     mbuf = modebuf;

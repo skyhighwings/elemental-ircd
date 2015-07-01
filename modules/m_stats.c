@@ -1096,7 +1096,6 @@ stats_memory (struct Client *source_p)
 {
     struct Client *target_p;
     struct Channel *chptr;
-    struct Ban *actualBan;
     rb_dlink_node *rb_dlink;
     rb_dlink_node *ptr;
     int channel_count = 0;
@@ -1172,28 +1171,24 @@ stats_memory (struct Client *source_p)
         channel_invites += rb_dlink_list_length(&chptr->invites);
 
         RB_DLINK_FOREACH(rb_dlink, chptr->banlist.head) {
-            actualBan = rb_dlink->data;
             channel_bans++;
 
             channel_ban_memory += sizeof(rb_dlink_node) + sizeof(struct Ban);
         }
 
         RB_DLINK_FOREACH(rb_dlink, chptr->exceptlist.head) {
-            actualBan = rb_dlink->data;
             channel_except++;
 
             channel_except_memory += (sizeof(rb_dlink_node) + sizeof(struct Ban));
         }
 
         RB_DLINK_FOREACH(rb_dlink, chptr->invexlist.head) {
-            actualBan = rb_dlink->data;
             channel_invex++;
 
             channel_invex_memory += (sizeof(rb_dlink_node) + sizeof(struct Ban));
         }
 
         RB_DLINK_FOREACH(rb_dlink, chptr->quietlist.head) {
-            actualBan = rb_dlink->data;
             channel_quiets++;
 
             channel_quiet_memory += (sizeof(rb_dlink_node) + sizeof(struct Ban));
@@ -1520,16 +1515,16 @@ stats_l_client(struct Client *source_p, struct Client *target_p,
                            (IsUpper(statchar) ?
                             get_client_name(target_p, SHOW_IP) :
                             get_client_name(target_p, HIDE_IP)) :
-                               get_client_name(target_p, MASK_IP),
-                               (int) rb_linebuf_len(&target_p->localClient->buf_sendq),
-                               (int) target_p->localClient->sendM,
-                               (int) target_p->localClient->sendK,
-                               (int) target_p->localClient->receiveM,
-                               (int) target_p->localClient->receiveK,
-                               rb_current_time() - target_p->localClient->firsttime,
-                               (rb_current_time() > target_p->localClient->lasttime) ?
-                               (rb_current_time() - target_p->localClient->lasttime) : 0,
-                               "-");
+                           get_client_name(target_p, MASK_IP),
+                           (int) rb_linebuf_len(&target_p->localClient->buf_sendq),
+                           (int) target_p->localClient->sendM,
+                           (int) target_p->localClient->sendK,
+                           (int) target_p->localClient->receiveM,
+                           (int) target_p->localClient->receiveK,
+                           rb_current_time() - target_p->localClient->firsttime,
+                           (rb_current_time() > target_p->localClient->lasttime) ?
+                           (rb_current_time() - target_p->localClient->lasttime) : 0,
+                           "-");
     }
 }
 
