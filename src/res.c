@@ -280,7 +280,7 @@ static struct reslist *make_request(struct DNSQuery *query)
     struct reslist *request = rb_malloc(sizeof(struct reslist));
 
     request->sentat = rb_current_time();
-    request->retries = 3;
+    request->retries = 0;
     request->timeout = 4;	/* start at 4 and exponential inc. */
     request->query = query;
 
