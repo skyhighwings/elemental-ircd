@@ -6,9 +6,21 @@ libratbox_la_LIBADD = @SSL_LIBS@
 
 lib_LTLIBRARIES = libratbox.la
 
-libratbox_la_SOURCES =            \
-        platform/unix.c           \
-        platform/windows.c        \
+if PLATFORM_UNIX
+libratbox_la_SOURCES = platform/unix.c
+else
+libratbox_la_SOURCES = platform/windows.c
+endif
+
+if WITH_OPENSSL
+libratbox_la_SOURCES += ssl/openssl.c
+endif
+if WITH_GNUTLS
+libratbox_la_SOURCES += ssl/gnutls.c
+endif
+
+
+libratbox_la_SOURCES +=           \
         crypt.c                   \
         balloc.c                  \
         commio.c                  \
@@ -29,11 +41,4 @@ libratbox_la_SOURCES =            \
         netio/kqueue.c            \
         netio/win32.c             \
         arc4random.c
-
-if WITH_OPENSSL
-libratbox_la_SOURCES += ssl/openssl.c
-endif
-if WITH_GNUTLS
-libratbox_la_SOURCES += ssl/gnutls.c
-endif
 
