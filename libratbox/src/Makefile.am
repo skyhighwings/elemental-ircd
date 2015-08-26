@@ -1,12 +1,14 @@
 AUTOMAKE_OPTIONS = foreign
 
-AM_CPPFLAGS = -I. -I../include @SSL_CFLAGS@ @GNUTLS_CFLAGS@
+AM_CPPFLAGS = -I. -I../include @SSL_CFLAGS@
+libratbox_la_LDFLAGS = @SSL_LIBS@  -avoid-version -no-undefined -export-symbols export-syms.txt
+libratbox_la_LIBADD = @SSL_LIBS@
+
+lib_LTLIBRARIES = libratbox.la
 
 libratbox_la_SOURCES =            \
         platform/unix.c           \
         platform/windows.c        \
-        ssl/openssl.c             \
-        ssl/gnutls.c              \
         crypt.c                   \
         balloc.c                  \
         commio.c                  \
@@ -28,7 +30,10 @@ libratbox_la_SOURCES =            \
         netio/win32.c             \
         arc4random.c
 
-libratbox_la_LDFLAGS = @SSL_LIBS@ @GNUTLS_LIBS@  -avoid-version -no-undefined -export-symbols export-syms.txt
-libratbox_la_LIBADD = @SSL_LIBS@ @GNUTLS_LIBS@
-lib_LTLIBRARIES = libratbox.la
+if WITH_OPENSSL
+libratbox_la_SOURCES += ssl/openssl.c
+endif
+if WITH_GNUTLS
+libratbox_la_SOURCES += ssl/gnutls.c
+endif
 
